@@ -1,25 +1,7 @@
 name: CI Legacy
 on:
-  # Run on manual trigger
+  # fork-only measurement harness (agarg21): dispatch only, Codecov upload removed
   workflow_dispatch:
-
-  # Run on pull requests
-  pull_request:
-    paths-ignore:
-      - '*.md'
-
-  # Run on merge queue
-  merge_group:
-
-  # Run when pushing to main or dev branches
-  push:
-    branches:
-      - main
-      - dev*
-
-  # Run scheduled CI flow daily
-  schedule:
-    - cron: '0 8 * * 0'
 
 jobs:
   test:
@@ -120,9 +102,3 @@ jobs:
         run: |
           source .venv/bin/activate
           ./run_tests.sh ${{ matrix.framework }} ${{ matrix.module }}
-
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v7
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          fail_ci_if_error: true
